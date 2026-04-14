@@ -1,5 +1,6 @@
 import { listTargetChoices } from "../injectors/index.js";
 import { chooseOne } from "../utils/chooseOne.js";
+import { formatScope, type Scope } from "../utils/config.js";
 
 const MODE_CHOICES = [
   { name: "balanced — tighter prose, fewer headings", value: "balanced" },
@@ -7,10 +8,10 @@ const MODE_CHOICES = [
   { name: "ultra — minimum tokens", value: "ultra" },
 ] as const;
 
-const SCOPE_CHOICES = [
-  { name: "global — user-level paths (~/.agents/skills for Cursor)", value: "global" },
-  { name: "project — repo-level paths (./.agents/skills)", value: "project" },
-] as const;
+const SCOPE_CHOICES: { name: string; value: Scope }[] = [
+  { name: formatScope("global"), value: "global" },
+  { name: formatScope("project"), value: "project" },
+];
 
 export async function promptMissingInstallArgs(opts: {
   target?: string;

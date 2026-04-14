@@ -1,5 +1,5 @@
 export const icons = {
-  mascot: "🧗‍♀️",
+  mascot: "🗿",
   check: "✔",
   warn: "⚠",
   info: "ℹ",

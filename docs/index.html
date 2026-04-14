@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="cavewoman — universal AI response optimizer CLI for Cursor, Claude, ChatGPT, Codex, and more." />
+  <meta name="description" content="cavewoman — universal AI response optimizer CLI for Cursor, Claude Code, ChatGPT, Gemini CLI, Codex, and more." />
   <meta name="theme-color" content="#0a0e14" />
   <link rel="canonical" href="https://opensource.stackblogger.com/cavewoman/" />
   <title>cavewoman — AI response optimizer CLI</title>
@@ -302,7 +302,7 @@
       <div class="badge">Open source CLI</div>
       <h1><span>cavewoman</span> — universal AI response optimizer</h1>
       <p class="lede">
-        One command installs concise, structured, low-fluff rules into Cursor skills, Claude / ChatGPT clipboards,
+        One command installs concise, structured, low-fluff rules into Cursor skills, Claude Code plugins, ChatGPT clipboard,
         Codex wrappers, Windsurf prefixes, and more. Built for real terminals: monospace type, fast defaults, agent-specific injectors.
       </p>
     </header>
@@ -334,7 +334,7 @@
         </div>
         <div class="terminal-body">
           <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman install --target cursor --mode structured --scope global</span></div>
-          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman install --target claude --mode ultra</span></div>
+          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman install --target claude-code --mode ultra</span></div>
           <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman status</span></div>
           <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman switch-mode balanced</span></div>
           <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman uninstall --target cursor</span></div>
@@ -369,8 +369,16 @@
             <td>Skill at <code>~/.agents/skills/cavewoman</code> (global) or <code>./.agents/skills/cavewoman</code> (project)</td>
           </tr>
           <tr>
-            <td><code>claude</code> / <code>chatgpt</code></td>
-            <td>Sticky prompt file under <code>~/.cavewoman</code> + clipboard via clipboardy</td>
+            <td><code>chatgpt</code></td>
+            <td>Sticky file under <code>~/.cavewoman/chatgpt-sticky-prompt.txt</code> plus clipboard copy (clipboardy).</td>
+          </tr>
+          <tr>
+            <td><code>claude-code</code></td>
+            <td>Claude Code plugin layout under <code>~/.cavewoman/claude-code-plugin</code> (global) or <code>./.cavewoman/claude-code-plugin</code> (project): <code>.claude-plugin/plugin.json</code> + <code>skills/cavewoman/SKILL.md</code>. Load with <code>claude --plugin-dir …</code> or publish via a plugin marketplace.</td>
+          </tr>
+          <tr>
+            <td><code>gemini</code></td>
+            <td>Gemini CLI extension: <code>gemini-extension.json</code> + <code>GEMINI.md</code> under <code>~/.gemini/extensions/cavewoman</code> (global) or <code>./.gemini/extensions/cavewoman</code> (project). Restart the CLI; install from disk with <code>gemini extensions link</code> or from Git with <code>gemini extensions install</code>.</td>
           </tr>
           <tr>
             <td><code>codex</code></td>

@@ -3,8 +3,9 @@ import type { Scope } from "../utils/config.js";
 
 export type InstallTarget =
   | "cursor"
-  | "claude"
+  | "claude-code"
   | "chatgpt"
+  | "gemini"
   | "codex"
   | "windsurf"
   | "generic";

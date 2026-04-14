@@ -5,6 +5,10 @@ import { CAVEWOMAN_DIR, CAVEWOMAN_RC, ensureDir } from "./paths.js";
 
 export type Scope = "global" | "project";
 
+export function formatScope(scope: Scope): string {
+  return scope === "global" ? "This computer - global" : "This project - local";
+}
+
 export type CavewomanPreferences = {
   cursorSkillsDir?: string | null;
 };
