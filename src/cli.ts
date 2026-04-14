@@ -59,7 +59,10 @@ async function main(): Promise<void> {
     .command("uninstall")
     .description("Remove cavewoman artifacts for a target")
     .option("-t, --target <agent>", "Agent target (defaults to last install)")
-    .option("-s, --scope <scope>", "Uninstall scope: global = this computer, project = this repo")
+    .option(
+      "-s, --scope <scope>",
+      "Uninstall scope (non-Cursor targets). Cursor: always removes global and project skill dirs when present"
+    )
     .addHelpText("after", docHelpText())
     .action(async (cmdOpts) => {
       await runUninstall({

@@ -12,6 +12,15 @@ function skillDir(ctx: InstallContext): string {
   return path.join(base, SKILL_NAME);
 }
 
+function skillDirsForUninstall(ctx: InstallContext): string[] {
+  const globalDir = skillDir({ ...ctx, scope: "global" });
+  const projectDir = skillDir({ ...ctx, scope: "project" });
+  if (globalDir === projectDir) {
+    return [globalDir];
+  }
+  return [globalDir, projectDir];
+}
+
 export const cursorInjector: Injector = {
   id: "cursor",
   label: "Cursor",
@@ -29,13 +38,22 @@ export const cursorInjector: Injector = {
   },
 
   async uninstall(ctx: InstallContext): Promise<InstallResult> {
-    const dir = skillDir(ctx);
-    try {
-      fs.rmSync(dir, { recursive: true, force: true });
-      return { summary: "Removed cavewoman Cursor skill", details: [dir] };
-    } catch {
-      return { summary: "Nothing to remove (skill missing)", details: [dir] };
+    const dirs = skillDirsForUninstall(ctx);
+    const removed: string[] = [];
+    for (const dir of dirs) {
+      try {
+        if (fs.existsSync(path.join(dir, "SKILL.md")) || fs.existsSync(dir)) {
+          fs.rmSync(dir, { recursive: true, force: true });
+          removed.push(dir);
+        }
+      } catch {
+        /* ignore */
+      }
     }
+    if (removed.length === 0) {
+      return { summary: "Nothing to remove (skill missing)", details: dirs };
+    }
+    return { summary: "Removed cavewoman Cursor skill", details: removed };
   },
 
   async status(ctx: InstallContext): Promise<InstallResult> {
