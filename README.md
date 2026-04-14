@@ -8,32 +8,38 @@
   <strong>a lightweight CLI that saves your real money with coding agents</strong>
 </p>
 
+<p align="center">
+  <a href="https://github.com/stackblogger/cavewoman/actions/workflows/semgrep.yml"><img src="https://github.com/stackblogger/cavewoman/actions/workflows/semgrep.yml/badge.svg" alt="Semgrep" /></a>
+  <a href="https://www.npmjs.com/package/cavewoman"><img src="https://img.shields.io/npm/l/cavewoman" alt="License" /></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript" /></a>
+</p>
+
 **Documentation:** https://opensource.stackblogger.com/cavewoman/
 
-## CLI Install
+## Installation
 
 As a prerequisite, you need to have [Node.js](https://nodejs.org) installed on your machine to use `npm` commands.
 
-1. Open **Terminal** (Mac) or **Command Prompt** / **PowerShell** (Windows).
-2. Install cavewoman CLI once:
+### Option 1: Install globally (recommended)
 
-   ```bash
-   npm install -g cavewoman
-   ```
+```bash
+npm install -g cavewoman
+```
 
-3. Run the command and follow on-screen instructions to install it
+Then run:
+```bash
+cavewoman
+```
 
-   ```bash
-   cavewoman
-   ```
+Follow the on-screen prompts to configure it.
 
-   The installer asks a few questions if you do not pass options.
-
-**Try without step 2:** if you only want a one-off run, skip the global install and use:
+### Option 2: Run without global installation
 
 ```bash
 npx cavewoman
 ```
+
+Runs instantly — no install needed.
 
 ## Quick start
 
