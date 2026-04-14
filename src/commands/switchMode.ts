@@ -30,6 +30,6 @@ export async function runSwitchMode(opts: { mode: string; cwd: string }): Promis
   };
 
   const result = await injector.install(ctx);
-  line(`${icons.brain} switched mode → ${mode}`);
+  line(`${icons.mascot} switched mode → ${mode}`);
   line(`${icons.check} ${result.summary}`);
 }

@@ -7,7 +7,7 @@ import { parseRuleMode } from "../rules/index.js";
 
 export async function runStatus(opts: { cwd: string }): Promise<void> {
   const cfg = loadConfig();
-  line(`${icons.brain} cavewoman status`);
+  line(`${icons.mascot} cavewoman status`);
   line(`Config: ~/.cavewomanrc`);
   line(`Default target: ${cfg.defaultTarget}`);
   line(`Default mode: ${cfg.defaultMode}`);

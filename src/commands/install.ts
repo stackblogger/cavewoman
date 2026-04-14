@@ -76,7 +76,7 @@ export async function runInstall(opts: {
   });
 
   line("");
-  line(`${icons.brain} cavewoman setup`);
+  line(`${icons.mascot} cavewoman setup`);
   line("");
   line(`Target: ${target}`);
   line(`Mode: ${mode}`);
