@@ -22,7 +22,7 @@ npx cavewoman --target cursor
 cavewoman install --target cursor --mode structured --scope global
 cavewoman install --target claude-code --mode ultra
 cavewoman status
-cavewoman switch-mode balanced
+cavewoman switch balanced
 cavewoman uninstall --target cursor
 ```
 
@@ -46,7 +46,7 @@ If you omit flags on `install`, cavewoman prompts interactively (TTY only).
 
 - `defaultTarget`: default agent id
 - `defaultMode`: `balanced` | `structured` | `ultra`
-- `lastInstalledTarget`: used by `switch-mode` refresh + `uninstall` default
+- `lastInstalledTarget`: used by `switch` refresh + `uninstall` default
 - `lastScope`: `global` (this computer) | `project` (this repo)
 - `preferences.cursorSkillsDir`: optional absolute override for Cursor skill root
 

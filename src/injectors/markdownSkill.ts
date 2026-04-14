@@ -16,7 +16,7 @@ ${rules}
 
 ## Usage
 
-Keep this skill enabled while pair-programming. Adjust mode via \`cavewoman switch-mode\`.
+Keep this skill enabled while pair-programming. Adjust mode via \`cavewoman switch\`.
 `;
 }
 
@@ -36,7 +36,7 @@ ${rules}
 
 ## Usage
 
-Keep this skill in mind for the session. Update rules by re-running \`cavewoman install --target claude-code\` or \`cavewoman switch-mode\`.
+Keep this skill in mind for the session. Update rules by re-running \`cavewoman install --target claude-code\` or \`cavewoman switch\`.
 `;
 }
 
@@ -51,6 +51,6 @@ ${rules}
 
 ---
 
-Re-install or change mode: \`cavewoman install --target gemini\` / \`cavewoman switch-mode\`.
+Re-install or change mode: \`cavewoman install --target gemini\` / \`cavewoman switch\`.
 `;
 }

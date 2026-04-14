@@ -3,7 +3,7 @@ import process from "node:process";
 import { Command } from "commander";
 import { runInstall } from "./commands/install.js";
 import { runStatus } from "./commands/status.js";
-import { runSwitchMode } from "./commands/switchMode.js";
+import { runSwitch } from "./commands/switch.js";
 import { runUninstall } from "./commands/uninstall.js";
 import { listTargets } from "./injectors/index.js";
 import { readHomepage, readVersion } from "./utils/version.js";
@@ -73,11 +73,11 @@ async function main(): Promise<void> {
     });
 
   program
-    .command("switch-mode <mode>")
-    .description("Change default mode and refresh last installed target")
+    .command("switch [mode]")
+    .description("Change default mode and refresh last installed target (interactive if mode omitted)")
     .addHelpText("after", docHelpText())
-    .action(async (mode: string) => {
-      await runSwitchMode({ mode, cwd: process.cwd() });
+    .action(async (mode: string | undefined) => {
+      await runSwitch({ mode, cwd: process.cwd() });
     });
 
   program
