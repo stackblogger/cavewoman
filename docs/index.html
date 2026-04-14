@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="cavewoman — universal AI response optimizer CLI for Cursor, Claude Code, ChatGPT, Gemini CLI, Codex, and more." />
+  <meta name="description" content="cavewoman — lightweight CLI that saves money on coding agents: Cursor, Claude Code, ChatGPT, Gemini CLI, Codex, Windsurf, generic." />
   <meta name="theme-color" content="#0a0e14" />
   <link rel="canonical" href="https://opensource.stackblogger.com/cavewoman/" />
   <title>cavewoman — AI response optimizer CLI</title>
@@ -203,19 +203,6 @@
       color: var(--green);
     }
 
-    .cw-mascot {
-      display: inline-block;
-      vertical-align: -0.22em;
-      margin-right: 0.15em;
-      color: var(--magenta);
-    }
-
-    .cw-mascot svg {
-      width: 1.15em;
-      height: 1.15em;
-      display: block;
-    }
-
     table {
       width: 100%;
       border-collapse: collapse;
@@ -294,6 +281,45 @@
       flex-wrap: wrap;
       gap: 1rem;
     }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .badges img {
+      height: 20px;
+      vertical-align: middle;
+    }
+
+    .subhead {
+      margin: 1.35rem 0 0.5rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1rem 0;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .table-wrap table {
+      margin: 0;
+      min-width: 720px;
+      border: none;
+      border-radius: 0;
+    }
+
+    .table-wrap table tr:last-child td {
+      border-bottom: none;
+    }
   </style>
 </head>
 <body>
@@ -302,30 +328,51 @@
       <div class="badge">Open source CLI</div>
       <h1><span>cavewoman</span> — universal AI response optimizer</h1>
       <p class="lede">
-        One command installs concise, structured, low-fluff rules into Cursor skills, Claude Code plugins, ChatGPT clipboard,
-        Codex wrappers, Windsurf prefixes, and more. Built for real terminals: monospace type, fast defaults, agent-specific injectors.
+        A lightweight CLI that saves your real money with coding agents. Installs concise, structured, low-fluff rules per target:
+        Cursor skills, Claude Code plugins, ChatGPT sticky prompts, Gemini extensions, Codex wrappers, Windsurf prefixes, and a generic fallback.
       </p>
+      <div class="badges">
+        <a href="https://github.com/stackblogger/cavewoman/actions/workflows/semgrep.yml"><img src="https://github.com/stackblogger/cavewoman/actions/workflows/semgrep.yml/badge.svg" alt="Semgrep" /></a>
+        <a href="https://www.npmjs.com/package/cavewoman"><img src="https://img.shields.io/npm/l/cavewoman" alt="License" /></a>
+        <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript" /></a>
+      </div>
     </header>
 
     <main>
       <h2>Install</h2>
-      <p>Global install or run on demand with <strong>npx</strong> (no global install).</p>
-      <div class="terminal" aria-label="Install commands">
+      <p>Prerequisite: <a href="https://nodejs.org/">Node.js</a> for <code>npm</code>.</p>
+      <p class="subhead">Option 1 — global (recommended)</p>
+      <div class="terminal" aria-label="Global install">
         <div class="terminal-bar">
           <span class="dot-r" aria-hidden="true"></span>
           <span class="dot-y" aria-hidden="true"></span>
           <span class="dot-g" aria-hidden="true"></span>
-          <span class="terminal-title">zsh — 80×24</span>
+          <span class="terminal-title">zsh</span>
         </div>
         <div class="terminal-body">
           <div class="line"><span class="prompt">$</span> <span class="cmd">npm install -g cavewoman</span></div>
-          <div class="line"><span class="prompt">$</span> <span class="cmd">npx cavewoman --target cursor</span></div>
+          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman</span></div>
         </div>
       </div>
+      <p>Follow on-screen prompts to configure.</p>
+      <p class="subhead">Option 2 — run without installation</p>
+      <div class="terminal" aria-label="npx cavewoman">
+        <div class="terminal-bar">
+          <span class="dot-r" aria-hidden="true"></span>
+          <span class="dot-y" aria-hidden="true"></span>
+          <span class="dot-g" aria-hidden="true"></span>
+          <span class="terminal-title">zsh</span>
+        </div>
+        <div class="terminal-body">
+          <div class="line"><span class="prompt">$</span> <span class="cmd">npx cavewoman</span></div>
+        </div>
+      </div>
+      <p>No global install required.</p>
 
-      <h2>Quick start</h2>
-      <p>Omit flags on <code>install</code> for an interactive TTY picker (↑/↓, Enter or Space). Otherwise pass <code>--target</code>, <code>--mode</code>, and <code>--scope</code>.</p>
-      <div class="terminal" aria-label="CLI examples">
+      <h2>Common commands</h2>
+      <p class="subhead">Switch mode</p>
+      <p>Updates the mode for the last agent you configured. Modes: <code>balanced</code>, <code>structured</code>, <code>ultra</code>. Pass the mode in the command, or run <code>cavewoman switch</code> with no argument for an interactive picker.</p>
+      <div class="terminal" aria-label="cavewoman switch">
         <div class="terminal-bar">
           <span class="dot-r" aria-hidden="true"></span>
           <span class="dot-y" aria-hidden="true"></span>
@@ -333,77 +380,120 @@
           <span class="terminal-title">cavewoman</span>
         </div>
         <div class="terminal-body">
-          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman install --target cursor --mode structured --scope global</span></div>
-          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman install --target claude-code --mode ultra</span></div>
-          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman status</span></div>
-          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman switch balanced</span></div>
-          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman uninstall --target cursor</span></div>
+          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman switch ultra</span></div>
         </div>
       </div>
 
-      <div class="terminal" aria-label="Success message">
+      <p class="subhead">Configure another agent (change target)</p>
+      <p>Run <code>cavewoman</code> or <code>npx cavewoman</code> and use prompts to pick a different agent.</p>
+      <p>Supported coding agents:</p>
+      <ul>
+        <li>Cursor (<code>cursor</code>)</li>
+        <li>Claude Code (<code>claude-code</code>)</li>
+        <li>ChatGPT (<code>chatgpt</code>)</li>
+        <li>Gemini CLI (<code>gemini</code>)</li>
+        <li>Codex CLI (<code>codex</code>)</li>
+        <li>Windsurf (<code>windsurf</code>)</li>
+        <li>Other (<code>generic</code>) — fallback when your tool is not listed</li>
+      </ul>
+
+      <p class="subhead">Check status</p>
+      <div class="terminal" aria-label="cavewoman status">
         <div class="terminal-bar">
           <span class="dot-r" aria-hidden="true"></span>
           <span class="dot-y" aria-hidden="true"></span>
           <span class="dot-g" aria-hidden="true"></span>
-          <span class="terminal-title">done</span>
+          <span class="terminal-title">cavewoman</span>
         </div>
         <div class="terminal-body">
-          <div class="line"><span class="cw-mascot" title="cavewoman"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="7" r="3" fill="currentColor"/><path d="M7.5 4.5c1-1.8 3.2-2.3 4.5-2.3s3.5.5 4.5 2.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none"/><path d="M9 10.5h6l1.8 11.5H7.2L9 10.5z" fill="currentColor" opacity="0.92"/><path d="M16.5 12.5l5 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="20.5" r="2" fill="currentColor"/></svg></span> <span class="out">cavewoman setup</span></div>
-          <div class="line"><span class="ok">✔</span> <span class="out">Installed cavewoman skill</span></div>
-          <div class="line"><span class="out">cavewoman is now active.</span></div>
+          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman status</span></div>
         </div>
       </div>
+      <p>Shows configured agent, target, scope, mode, and whether expected files exist.</p>
 
-      <h2>Supported agents</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Target</th>
-            <th>Behavior</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>cursor</code></td>
-            <td>Skill at <code>~/.agents/skills/cavewoman</code> (global) or <code>./.agents/skills/cavewoman</code> (project)</td>
-          </tr>
-          <tr>
-            <td><code>chatgpt</code></td>
-            <td>Sticky file under <code>~/.cavewoman/chatgpt-sticky-prompt.txt</code> plus clipboard copy (clipboardy).</td>
-          </tr>
-          <tr>
-            <td><code>claude-code</code></td>
-            <td>Claude Code plugin layout under <code>~/.cavewoman/claude-code-plugin</code> (global) or <code>./.cavewoman/claude-code-plugin</code> (project): <code>.claude-plugin/plugin.json</code> + <code>skills/cavewoman/SKILL.md</code>. Load with <code>claude --plugin-dir …</code> or publish via a plugin marketplace.</td>
-          </tr>
-          <tr>
-            <td><code>gemini</code></td>
-            <td>Gemini CLI extension: <code>gemini-extension.json</code> + <code>GEMINI.md</code> under <code>~/.gemini/extensions/cavewoman</code> (global) or <code>./.gemini/extensions/cavewoman</code> (project). Restart the CLI; install from disk with <code>gemini extensions link</code> or from Git with <code>gemini extensions install</code>.</td>
-          </tr>
-          <tr>
-            <td><code>codex</code></td>
-            <td>Prefix file + <code>cavewoman-codex</code> wrapper under <code>~/.cavewoman/bin</code> (adjust if your Codex CLI flags differ)</td>
-          </tr>
-          <tr>
-            <td><code>windsurf</code></td>
-            <td><code>windsurf-prefix.txt</code> for Cascade-style memory</td>
-          </tr>
-          <tr>
-            <td><code>generic</code></td>
-            <td><code>generic-prefix.txt</code> to prepend manually</td>
-          </tr>
-        </tbody>
-      </table>
+      <p class="subhead">Uninstall</p>
+      <div class="terminal" aria-label="cavewoman uninstall">
+        <div class="terminal-bar">
+          <span class="dot-r" aria-hidden="true"></span>
+          <span class="dot-y" aria-hidden="true"></span>
+          <span class="dot-g" aria-hidden="true"></span>
+          <span class="terminal-title">cavewoman</span>
+        </div>
+        <div class="terminal-body">
+          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman uninstall</span></div>
+          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman uninstall -t cursor</span></div>
+          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman uninstall -t chatgpt -s global</span></div>
+        </div>
+      </div>
+      <p>Without <code>-t</code>, uninstall uses the last installed target. Non-Cursor: <code>-s</code> is <code>global</code> or <code>project</code>. Cursor: removes global and project skill dirs when present.</p>
+
+      <h2>How to use in each agent</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Target</th>
+              <th>Outputs (typical)</th>
+              <th>Invoke</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>cursor</code></td>
+              <td><code>SKILL.md</code> → <code>~/.agents/skills/cavewoman</code> or <code>./.agents/skills/cavewoman</code></td>
+              <td><code>/cavewoman</code> per chat</td>
+            </tr>
+            <tr>
+              <td><code>claude-code</code></td>
+              <td><code>.claude-plugin/plugin.json</code>, <code>skills/cavewoman/SKILL.md</code> under <code>~/.cavewoman/claude-code-plugin</code> or <code>./.cavewoman/claude-code-plugin</code></td>
+              <td><code>claude --plugin-dir &lt;plugin-root&gt;</code> (or marketplace install of same tree)</td>
+            </tr>
+            <tr>
+              <td><code>chatgpt</code></td>
+              <td><code>~/.cavewoman/chatgpt-sticky-prompt.txt</code> (+ clipboard on <code>install</code>)</td>
+              <td>Paste → Custom instructions / project rules / system prompt (persistent until replaced)</td>
+            </tr>
+            <tr>
+              <td><code>gemini</code></td>
+              <td><code>~/.gemini/extensions/cavewoman/</code> (<code>gemini-extension.json</code>, <code>GEMINI.md</code>) or <code>./.gemini/extensions/cavewoman/</code></td>
+              <td>Restart CLI; enable extension; <code>/extensions</code> or <code>gemini extensions list</code></td>
+            </tr>
+            <tr>
+              <td><code>codex</code></td>
+              <td><code>~/.cavewoman/codex-prefix.txt</code>, <code>~/.cavewoman/bin/cavewoman-codex</code></td>
+              <td><code>export PATH="$HOME/.cavewoman/bin:$PATH"</code>; <code>cavewoman-codex "&lt;prompt&gt;"</code> → prefixes, calls <code>codex -p</code>; or prepend file if calling <code>codex</code> yourself</td>
+            </tr>
+            <tr>
+              <td><code>windsurf</code></td>
+              <td><code>~/.cavewoman/windsurf-prefix.txt</code></td>
+              <td>Paste into Cascade persistent instructions</td>
+            </tr>
+            <tr>
+              <td><code>generic</code></td>
+              <td><code>~/.cavewoman/generic-prefix.txt</code></td>
+              <td>Manual prepend to prompts</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Configuration</h2>
+      <p><code>~/.cavewomanrc</code> (JSON):</p>
+      <ul>
+        <li><code>defaultTarget</code> — default agent id</li>
+        <li><code>defaultMode</code> — <code>balanced</code> | <code>structured</code> | <code>ultra</code></li>
+        <li><code>lastInstalledTarget</code> — <code>switch</code> refresh + default <code>uninstall</code></li>
+        <li><code>lastScope</code> — <code>global</code> (this machine) | <code>project</code> (this repo)</li>
+        <li><code>preferences.cursorSkillsDir</code> — optional absolute Cursor skill root override</li>
+      </ul>
+      <p>Environment: <code>CAVEWOMAN_CURSOR_SKILLS_DIR</code> overrides Cursor skills base directory.</p>
 
       <h2>Modes</h2>
       <ul>
-        <li><strong>balanced</strong> — tighter prose, fewer headings</li>
-        <li><strong>structured</strong> — headings + checklist-style contract</li>
-        <li><strong>ultra</strong> — minimum tokens, imperative bullets</li>
+        <li><code>balanced</code> — concise, natural response with minimal fluff; good for readable answers</li>
+        <li><code>structured</code> — organized sections; good for debugging</li>
+        <li><code>ultra</code> — maximum compression; good for heavy daily use; saves tokens</li>
       </ul>
-
-      <h2>Configuration</h2>
-      <p>State lives in <code>~/.cavewomanrc</code> (defaults, last target, scope, preferences). Optional <code>CAVEWOMAN_CURSOR_SKILLS_DIR</code> overrides the Cursor skills root without writing to the rc file.</p>
 
       <h2>Before vs after</h2>
       <div class="quote before">
@@ -414,12 +504,30 @@
         <div class="quote-label">After (cavewoman-guided)</div>
         Root cause: stale build artifact in <code>dist/</code>. Fix: delete <code>dist</code>, rerun <code>npm run build</code>, restart dev server. Verify: <code>curl localhost:3000/health</code> returns 200.
       </div>
+
+      <h2>Extending agents</h2>
+      <p>Add an injector under <code>src/injectors/</code>, export it from <code>src/injectors/index.ts</code>, and document the target in the README.</p>
+
+      <h2>Development</h2>
+      <div class="terminal" aria-label="Development setup">
+        <div class="terminal-bar">
+          <span class="dot-r" aria-hidden="true"></span>
+          <span class="dot-y" aria-hidden="true"></span>
+          <span class="dot-g" aria-hidden="true"></span>
+          <span class="terminal-title">zsh</span>
+        </div>
+        <div class="terminal-body">
+          <div class="line"><span class="prompt">$</span> <span class="cmd">npm install</span></div>
+          <div class="line"><span class="prompt">$</span> <span class="cmd">npm run build</span></div>
+          <div class="line"><span class="prompt">$</span> <span class="cmd">npx cavewoman</span></div>
+        </div>
+      </div>
     </main>
 
     <footer>
       <p style="margin-top: 1rem">MIT ·
-        <a href="https://www.npmjs.com/package/cavewoman">npm · cavewoman</a> ·
-        <a href="https://opensource.stackblogger.com/cavewoman/">Documentation (this site)</a>
+        <a href="https://github.com/stackblogger/cavewoman">GitHub</a> ·
+        <a href="https://www.npmjs.com/package/cavewoman">npm</a> ·
       </p>
     </footer>
   </div>
