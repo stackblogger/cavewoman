@@ -22,6 +22,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "node --import tsx src/cli.ts",
+    "benchmark": "node --import tsx benchmarks/run.ts",
+    "test": "node --import tsx --test benchmarks/metrics.test.ts benchmarks/skill.test.ts",
     "prepublishOnly": "npm run build"
   },
   "engines": {
