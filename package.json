@@ -1,6 +1,6 @@
 {
   "name": "cavewoman",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Universal AI response optimizer for coding agents",
   "homepage": "https://opensource.stackblogger.com/cavewoman/",
   "license": "MIT",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stackblogger/cavewoman.git"
+    "url": "git+https://github.com/stackblogger/cavewoman.git"
   },
   "main": "dist/cli.js",
   "types": "dist/cli.d.ts",
