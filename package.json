@@ -1,10 +1,9 @@
 {
   "name": "cavewoman",
   "version": "0.1.5",
-  "description": "Universal AI response optimizer for coding agents",
+  "description": "cavewoman - a lightweight CLI to reduce token spends with coding agents and save real money",
   "homepage": "https://opensource.stackblogger.com/cavewoman/",
   "license": "MIT",
-  "author": "",
   "type": "module",
   "bin": {
     "cavewoman": "dist/cli.js"
@@ -18,6 +17,34 @@
   "files": [
     "dist",
     "README.md"
+  ],
+  "keywords": [
+    "cavewoman",
+    "cli",
+    "coding",
+    "agents",
+    "ai",
+    "ai-response-optimizer",
+    "claude",
+    "chatgpt",
+    "gemini",
+    "codex",
+    "windsurf",
+    "generic",
+    "claude-code",
+    "skills"
+  ],
+  "author": {
+    "name": "StackBlogger",
+    "email": "jimcute8879@gmail.com",
+    "url": "https://stackblogger.com"
+  },
+  "contributors": [
+    {
+      "name": "StackBlogger",
+      "email": "jimcute8879@gmail.com",
+      "url": "https://stackblogger.com"
+    }
   ],
   "scripts": {
     "build": "tsc",
