@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="cavewoman — universal AI response optimizer CLI for Cursor, Claude, ChatGPT, Codex, and more." />
+  <meta name="theme-color" content="#0a0e14" />
+  <title>cavewoman — AI response optimizer CLI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --font-cli: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", "Monaco", "Consolas", monospace;
+      --bg: #0a0e14;
+      --bg-elevated: #121822;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #79c0ff;
+      --accent-dim: #388bfd66;
+      --green: #56d364;
+      --orange: #ffa657;
+      --magenta: #d2a8ff;
+      --red: #ff7b72;
+      --shadow: 0 24px 80px #000000aa;
+      --radius: 10px;
+      --prompt: #7ee787;
+      --cmd: #ffa657;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-cli);
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 120% 80% at 50% -20%, var(--accent-dim), transparent 55%),
+        linear-gradient(180deg, #0d1117 0%, var(--bg) 35%);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--green);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.75rem, 4vw, 2.35rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    .lede {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 52ch;
+    }
+
+    h2 {
+      margin: 2.25rem 0 1rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--magenta);
+      letter-spacing: 0.02em;
+    }
+
+    h2::before {
+      content: "# ";
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    p {
+      margin: 0 0 1rem;
+      color: var(--text-muted);
+    }
+
+    p strong,
+    li strong {
+      color: var(--text);
+    }
+
+    ul {
+      margin: 0 0 1rem;
+      padding-left: 1.25rem;
+      color: var(--text-muted);
+    }
+
+    li {
+      margin-bottom: 0.35rem;
+    }
+
+    .terminal {
+      margin: 1.25rem 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 0.85rem;
+      background: #161b22;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .terminal-bar span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot-r { background: #ff5f56; }
+    .dot-y { background: #ffbd2e; }
+    .dot-g { background: #27c93f; }
+
+    .terminal-title {
+      flex: 1;
+      text-align: center;
+      font-size: 0.68rem;
+      opacity: 0.85;
+    }
+
+    .terminal-body {
+      padding: 1rem 1.15rem 1.15rem;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      overflow-x: auto;
+    }
+
+    .terminal-body .line {
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .prompt {
+      color: var(--prompt);
+      user-select: none;
+    }
+
+    .cmd {
+      color: var(--cmd);
+    }
+
+    .out {
+      color: var(--text-muted);
+    }
+
+    .ok {
+      color: var(--green);
+    }
+
+    .brain {
+      color: var(--magenta);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.82rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: #161b22;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    td code,
+    p code,
+    li code {
+      font-family: var(--font-cli);
+      font-size: 0.86em;
+      color: var(--orange);
+      background: #21262d;
+      padding: 0.12rem 0.35rem;
+      border-radius: 4px;
+    }
+
+    .quote {
+      margin: 1rem 0;
+      padding: 1rem 1.1rem;
+      border-left: 3px solid var(--accent);
+      background: #161b22;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .quote.before {
+      border-left-color: var(--red);
+    }
+
+    .quote.after {
+      border-left-color: var(--green);
+    }
+
+    .quote-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    footer nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="badge">Open source CLI</div>
+      <h1><span>cavewoman</span> — universal AI response optimizer</h1>
+      <p class="lede">
+        One command installs concise, structured, low-fluff rules into Cursor skills, Claude / ChatGPT clipboards,
+        Codex wrappers, Windsurf prefixes, and more. Built for real terminals: monospace type, fast defaults, agent-specific injectors.
+      </p>
+    </header>
+
+    <main>
+      <h2>Install</h2>
+      <p>Global install or run on demand with <strong>npx</strong> (no global install).</p>
+      <div class="terminal" aria-label="Install commands">
+        <div class="terminal-bar">
+          <span class="dot-r" aria-hidden="true"></span>
+          <span class="dot-y" aria-hidden="true"></span>
+          <span class="dot-g" aria-hidden="true"></span>
+          <span class="terminal-title">zsh — 80×24</span>
+        </div>
+        <div class="terminal-body">
+          <div class="line"><span class="prompt">$</span> <span class="cmd">npm install -g cavewoman</span></div>
+          <div class="line"><span class="prompt">$</span> <span class="cmd">npx cavewoman --target cursor</span></div>
+        </div>
+      </div>
+
+      <h2>Quick start</h2>
+      <p>Omit flags on <code>install</code> for an interactive TTY picker (↑/↓, Enter or Space). Otherwise pass <code>--target</code>, <code>--mode</code>, and <code>--scope</code>.</p>
+      <div class="terminal" aria-label="CLI examples">
+        <div class="terminal-bar">
+          <span class="dot-r" aria-hidden="true"></span>
+          <span class="dot-y" aria-hidden="true"></span>
+          <span class="dot-g" aria-hidden="true"></span>
+          <span class="terminal-title">cavewoman</span>
+        </div>
+        <div class="terminal-body">
+          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman install --target cursor --mode structured --scope global</span></div>
+          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman install --target claude --mode ultra</span></div>
+          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman status</span></div>
+          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman switch-mode balanced</span></div>
+          <div class="line"><span class="prompt">$</span> <span class="cmd">cavewoman uninstall --target cursor</span></div>
+        </div>
+      </div>
+
+      <h2>Supported agents</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Target</th>
+            <th>Behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>cursor</code></td>
+            <td>Skill at <code>~/.agents/skills/cavewoman</code> (global) or <code>./.agents/skills/cavewoman</code> (project)</td>
+          </tr>
+          <tr>
+            <td><code>claude</code> / <code>chatgpt</code></td>
+            <td>Sticky prompt file under <code>~/.cavewoman</code> + clipboard via clipboardy</td>
+          </tr>
+          <tr>
+            <td><code>codex</code></td>
+            <td>Prefix file + <code>cavewoman-codex</code> wrapper under <code>~/.cavewoman/bin</code> (adjust if your Codex CLI flags differ)</td>
+          </tr>
+          <tr>
+            <td><code>windsurf</code></td>
+            <td><code>windsurf-prefix.txt</code> for Cascade-style memory</td>
+          </tr>
+          <tr>
+            <td><code>generic</code></td>
+            <td><code>generic-prefix.txt</code> to prepend manually</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Modes</h2>
+      <ul>
+        <li><strong>balanced</strong> — tighter prose, fewer headings</li>
+        <li><strong>structured</strong> — headings + checklist-style contract</li>
+        <li><strong>ultra</strong> — minimum tokens, imperative bullets</li>
+      </ul>
+
+      <h2>Configuration</h2>
+      <p>State lives in <code>~/.cavewomanrc</code> (defaults, last target, scope, preferences). Optional <code>CAVEWOMAN_CURSOR_SKILLS_DIR</code> overrides the Cursor skills root without writing to the rc file.</p>
+
+      <h2>Before vs after</h2>
+      <div class="quote before">
+        <div class="quote-label">Before</div>
+        Sure! I’d be happy to help you with that. The issue you’re experiencing is likely caused by a subtle mismatch between…
+      </div>
+      <div class="quote after">
+        <div class="quote-label">After (cavewoman-guided)</div>
+        Root cause: stale build artifact in <code>dist/</code>. Fix: delete <code>dist</code>, rerun <code>npm run build</code>, restart dev server. Verify: <code>curl localhost:3000/health</code> returns 200.
+      </div>
+
+      <h2>Deploy this page</h2>
+      <p>Ship this site from the <code>docs/</code> folder (static HTML, no build). Full notes: <a href="./DEPLOY.md">DEPLOY.md</a>.</p>
+      <ol style="color: var(--text-muted); font-size: 0.9rem; padding-left: 1.25rem">
+        <li>Push <code>docs/index.html</code>, <code>docs/DEPLOY.md</code>, and <code>docs/.nojekyll</code> to GitHub.</li>
+        <li>Repository <strong>Settings → Pages</strong>.</li>
+        <li>Source: <strong>Deploy from a branch</strong> → your default branch → folder <strong>/docs</strong>.</li>
+        <li>Wait for the green check; open the Pages URL (project sites look like <code>https://USER.github.io/REPO/</code>).</li>
+        <li>Optional: custom domain under Pages; enable <strong>Enforce HTTPS</strong> when DNS is ready.</li>
+      </ol>
+      <div class="terminal" aria-label="Success message">
+        <div class="terminal-bar">
+          <span class="dot-r" aria-hidden="true"></span>
+          <span class="dot-y" aria-hidden="true"></span>
+          <span class="dot-g" aria-hidden="true"></span>
+          <span class="terminal-title">done</span>
+        </div>
+        <div class="terminal-body">
+          <div class="line"><span class="brain">🧠</span> <span class="out">cavewoman setup</span></div>
+          <div class="line"><span class="ok">✔</span> <span class="out">Installed cavewoman skill</span></div>
+          <div class="line"><span class="out">cavewoman is now active.</span></div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <nav>
+        <a href="https://www.npmjs.com/package/cavewoman">npm · cavewoman</a>
+        <a href="./DEPLOY.md">GitHub Pages deploy</a>
+      </nav>
+      <p style="margin-top: 1rem">MIT · Typography: JetBrains Mono · Theme: CLI dark (custom properties in <code>&lt;style&gt;</code>)</p>
+    </footer>
+  </div>
+</body>
+</html>
