@@ -20,16 +20,13 @@ jobs:
           node-version: "24"
           registry-url: https://registry.npmjs.org
 
-      - run: npm ci
-
-      - name: Check release tag matches package.json version
+      - name: Set package version from release tag
         run: |
           tag="${{ github.event.release.tag_name }}"
-          ver="${tag#v}"
-          pkg=$(node -p "require('./package.json').version")
-          if [ "$ver" != "$pkg" ]; then
-            echo "Release tag is $tag (expected version $ver); package.json has $pkg"
-            exit 1
-          fi
+          if [[ "$tag" == v* ]]; then ver="${tag#v}"; else ver="$tag"; fi
+          echo "Publishing as $ver (from tag $tag)"
+          npm version "$ver" --no-git-tag-version
+
+      - run: npm ci
 
       - run: npm publish --access public
