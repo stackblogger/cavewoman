@@ -29,7 +29,7 @@ function wrapperScript(home: string): string {
 
 export const codexInjector: Injector = {
   id: "codex",
-  label: "Codex (wrapper + prefix file)",
+  label: "Codex CLI",
 
   async install(ctx: InstallContext): Promise<InstallResult> {
     ensureDir(CAVEWOMAN_DIR);

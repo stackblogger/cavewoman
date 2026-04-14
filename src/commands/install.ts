@@ -2,7 +2,13 @@ import os from "node:os";
 import tty from "node:tty";
 import { stdin } from "node:process";
 import { parseRuleMode } from "../rules/index.js";
-import { effectiveCursorSkillsDir, loadConfig, mergeConfig, type Scope } from "../utils/config.js";
+import {
+  effectiveCursorSkillsDir,
+  formatScope,
+  loadConfig,
+  mergeConfig,
+  type Scope,
+} from "../utils/config.js";
 import { icons, line } from "../utils/logger.js";
 import { resolveInjector } from "../injectors/index.js";
 import type { InstallContext } from "../injectors/types.js";
@@ -80,7 +86,7 @@ export async function runInstall(opts: {
   line("");
   line(`Target: ${target}`);
   line(`Mode: ${mode}`);
-  line(`Scope: ${scope}`);
+  line(`Scope: ${formatScope(scope)}`);
   line("");
   line(`${icons.check} ${result.summary}`);
   if (result.details?.length) {
@@ -89,7 +95,7 @@ export async function runInstall(opts: {
     }
   }
 
-  if (injector.id === "claude" || injector.id === "chatgpt") {
+  if (injector.id === "chatgpt") {
     line("");
     line("Paste this once to activate cavewoman (clipboard already filled).");
   }
@@ -100,6 +106,16 @@ export async function runInstall(opts: {
 
   if (injector.id === "codex") {
     line("Codex tip: verify your `codex` CLI supports `-p` / prompt injection; edit wrapper if not.");
+    line("");
+  }
+
+  if (injector.id === "claude-code") {
+    line("Claude Code: use the printed path with `claude --plugin-dir \"…\"`, or ship the same layout in a Git repo and register a plugin marketplace (see Anthropic “Plugin marketplaces”).");
+    line("");
+  }
+
+  if (injector.id === "gemini") {
+    line("Gemini CLI: restart the CLI after install; use `gemini extensions list` / `/extensions list`. From a repo: `gemini extensions install <github-url>`.");
     line("");
   }
 

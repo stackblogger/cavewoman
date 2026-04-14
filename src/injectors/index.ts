@@ -1,13 +1,16 @@
-import { chatgptInjector, claudeInjector } from "./claude.js";
+import { chatgptInjector } from "./chatgpt.js";
+import { claudeCodeInjector } from "./claudeCode.js";
 import { codexInjector } from "./codex.js";
 import { cursorInjector } from "./cursor.js";
 import { genericInjector, windsurfInjector } from "./generic.js";
+import { geminiInjector } from "./gemini.js";
 import type { Injector, InstallTarget } from "./types.js";
 
 export const injectors: Injector[] = [
   cursorInjector,
-  claudeInjector,
+  claudeCodeInjector,
   chatgptInjector,
+  geminiInjector,
   codexInjector,
   windsurfInjector,
   genericInjector,
@@ -20,7 +23,7 @@ export function listTargets(): InstallTarget[] {
 }
 
 export function listTargetChoices(): { name: string; value: InstallTarget }[] {
-  return injectors.map((i) => ({ name: `${i.id} — ${i.label}`, value: i.id }));
+  return injectors.map((i) => ({ name: i.label, value: i.id }));
 }
 
 export function resolveInjector(target: string): Injector | null {
@@ -29,5 +32,5 @@ export function resolveInjector(target: string): Injector | null {
 }
 
 export function describeTargets(): string {
-  return injectors.map((i) => `- ${i.id}: ${i.label}`).join("\n");
+  return injectors.map((i) => `${i.id} (${i.label})`).join("\n");
 }

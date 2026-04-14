@@ -1,5 +1,5 @@
 import os from "node:os";
-import { effectiveCursorSkillsDir, loadConfig } from "../utils/config.js";
+import { effectiveCursorSkillsDir, formatScope, loadConfig } from "../utils/config.js";
 import { icons, line } from "../utils/logger.js";
 import { injectors } from "../injectors/index.js";
 import type { InstallContext } from "../injectors/types.js";
@@ -12,7 +12,7 @@ export async function runStatus(opts: { cwd: string }): Promise<void> {
   line(`Default target: ${cfg.defaultTarget}`);
   line(`Default mode: ${cfg.defaultMode}`);
   line(`Last install: ${cfg.lastInstalledTarget ?? "none"}`);
-  line(`Last scope: ${cfg.lastScope ?? "n/a"}`);
+  line(`Last scope: ${cfg.lastScope ? formatScope(cfg.lastScope) : "n/a"}`);
   line("");
 
   const ctx: InstallContext = {

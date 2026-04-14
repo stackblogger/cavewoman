@@ -3,8 +3,9 @@ import process from "node:process";
 import { Command } from "commander";
 import { runInstall } from "./commands/install.js";
 import { runStatus } from "./commands/status.js";
-import { runSwitchMode } from "./commands/switchMode.js";
+import { runSwitch } from "./commands/switch.js";
 import { runUninstall } from "./commands/uninstall.js";
+import { listTargets } from "./injectors/index.js";
 import { readHomepage, readVersion } from "./utils/version.js";
 
 function docHelpText(): string {
@@ -39,9 +40,9 @@ async function main(): Promise<void> {
   program
     .command("install")
     .description("Install cavewoman rules into an agent integration")
-    .option("-t, --target <agent>", "Agent target (cursor|claude|chatgpt|codex|windsurf|generic)")
+    .option("-t, --target <agent>", `Agent target (${listTargets().join("|")})`)
     .option("-m, --mode <mode>", "Rule mode (balanced|structured|ultra)")
-    .option("-s, --scope <scope>", "Install scope (global|project)")
+    .option("-s, --scope <scope>", "Install scope: global = this computer, project = this repo")
     .addHelpText("after", docHelpText())
     .action(async (cmdOpts) => {
       const interactive = Boolean(process.stdin.isTTY && process.stdout.isTTY);
@@ -58,7 +59,10 @@ async function main(): Promise<void> {
     .command("uninstall")
     .description("Remove cavewoman artifacts for a target")
     .option("-t, --target <agent>", "Agent target (defaults to last install)")
-    .option("-s, --scope <scope>", "Scope used for Cursor uninstall paths (global|project)")
+    .option(
+      "-s, --scope <scope>",
+      "Uninstall scope (non-Cursor targets). Cursor: always removes global and project skill dirs when present"
+    )
     .addHelpText("after", docHelpText())
     .action(async (cmdOpts) => {
       await runUninstall({
@@ -69,11 +73,11 @@ async function main(): Promise<void> {
     });
 
   program
-    .command("switch-mode <mode>")
-    .description("Change default mode and refresh last installed target")
+    .command("switch [mode]")
+    .description("Change default mode and refresh last installed target (interactive if mode omitted)")
     .addHelpText("after", docHelpText())
-    .action(async (mode: string) => {
-      await runSwitchMode({ mode, cwd: process.cwd() });
+    .action(async (mode: string | undefined) => {
+      await runSwitch({ mode, cwd: process.cwd() });
     });
 
   program

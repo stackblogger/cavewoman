@@ -6,7 +6,7 @@ import type { Injector, InstallContext, InstallResult } from "./types.js";
 
 export const genericInjector: Injector = {
   id: "generic",
-  label: "Generic (prefix snippet)",
+  label: "Other",
   install: (ctx) =>
     writePrefixFile(
       ctx,
@@ -59,7 +59,7 @@ async function writePrefixFile(
 
 export const windsurfInjector: Injector = {
   id: "windsurf",
-  label: "Windsurf (prefix file + paste into Cascade memory)",
+  label: "Windsurf",
   install: (ctx) =>
     writePrefixFile(
       ctx,
