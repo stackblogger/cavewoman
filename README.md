@@ -14,7 +14,7 @@
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript" /></a>
 </p>
 
-**Documentation:** https://opensource.stackblogger.com/cavewoman/
+**Documentation:** [cavewoman](https://opensource.stackblogger.com/cavewoman/)
 
 ## Installation
 
@@ -27,13 +27,14 @@ npm install -g cavewoman
 ```
 
 Then run:
+
 ```bash
 cavewoman
 ```
 
-Follow the on-screen prompts to configure it.
+Follow on-screen prompts to configure it.
 
-### Option 2: Run without global installation
+### Option 2: Run without installation
 
 ```bash
 npx cavewoman
@@ -41,39 +42,61 @@ npx cavewoman
 
 Runs instantly — no install needed.
 
-## Quick start
+## Common commands
+
+### Switch mode
+
+Change the mode for the last agent that you configured. Available modes are - `balanced`, `structured`, or `ultra`
+
+Note: You can either specify the mode directly in the command or run `cavewoman switch` without specifying any mode. It will show the available modes where you can choose one and hit enter to install.
 
 ```bash
-cavewoman install -t cursor -m structured -s global
-cavewoman install -t claude-code -m ultra
-cavewoman status
-cavewoman switch balanced
-cavewoman uninstall -t cursor
+cavewoman switch ultra
 ```
 
-**`install`** — `-t` / `--target` → agent id (`cursor`, `claude-code`, `chatgpt`, `gemini`, `codex`, `windsurf`, `generic`).  
-**`install`** — `-m` / `--mode` → `balanced` | `structured` | `ultra`.  
-**`install`** — `-s` / `--scope` → `global` (this machine) | `project` (current repo).  
-**`install`** (no flags) → prompts for target, mode, scope when TTY.  
+### Configure another agent (change target)
 
-**`switch [mode]`** — sets default mode and refreshes last installed target; omit `mode` for interactive picker.  
+Run `cavewoman` or `npx cavewoman` and follow on-screen prompts to select a different coding agent.
 
-**`uninstall`** — `-t` / `--target` → which agent to clean (defaults to last install).  
-**`uninstall`** — `-s` / `--scope` → scope for non-Cursor targets; Cursor uninstall touches global and project skill dirs when present.  
+Supported coding agents:
 
-**`status`** — prints saved defaults, last install, and last scope.
+- Cursor (`cursor`)
+- Claude Code (`claude-code`)
+- ChatGPT (`chatgpt`)
+- Gemini CLI (`gemini`)
+- Codex CLI (`codex`)
+- Windsurf (`windsurf`)
+- Other (`generic`) — fallback when your tool is not in the list above
 
-## Supported agents
+### Check status
 
-| Target | What it does |
-| --- | --- |
-| `cursor` | Writes a `SKILL.md` skill under `~/.agents/skills/cavewoman` (global) or `./.agents/skills/cavewoman` (project) |
-| `claude-code` | Writes a Claude Code plugin (`~/.cavewoman/claude-code-plugin` or `./.cavewoman/claude-code-plugin`): `.claude-plugin/plugin.json` + `skills/cavewoman/SKILL.md` — use `claude --plugin-dir …` or a marketplace |
-| `chatgpt` | Saves `~/.cavewoman/chatgpt-sticky-prompt.txt` and copies the same text to the clipboard |
-| `gemini` | Writes a Gemini CLI extension under `~/.gemini/extensions/cavewoman` (or `./.gemini/extensions/cavewoman`): `gemini-extension.json` + `GEMINI.md` — restart CLI; `gemini extensions link` / `gemini extensions install` |
-| `codex` | Writes `~/.cavewoman/codex-prefix.txt` and a `~/.cavewoman/bin/cavewoman-codex` wrapper (expects a `codex` CLI; adjust if flags differ) |
-| `windsurf` | Writes `~/.cavewoman/windsurf-prefix.txt` for Cascade-style persistent instructions |
-| `generic` | Writes `~/.cavewoman/generic-prefix.txt` to prepend manually |
+```bash
+cavewoman status
+```
+
+Get the status of configured coding agent, target, scope and mode.
+
+### Uninstall
+
+```bash
+cavewoman uninstall
+cavewoman uninstall -t cursor
+cavewoman uninstall -t chatgpt -s global
+```
+
+If you don't provide `-t` or target, it will uninstall the `cavewoman` CLI from the last installed coding agent.
+
+## How to use in each agent
+
+| Target | Outputs (typical) | Invoke |
+| ------ | ----------------- | ------ |
+| `cursor` | `SKILL.md` → `~/.agents/skills/cavewoman` or `./.agents/skills/cavewoman` | `/cavewoman` per chat |
+| `claude-code` | `.claude-plugin/plugin.json`, `skills/cavewoman/SKILL.md` under `~/.cavewoman/claude-code-plugin` or `./.cavewoman/claude-code-plugin` | `claude --plugin-dir <plugin-root>` (or marketplace install of same tree) |
+| `chatgpt` | `~/.cavewoman/chatgpt-sticky-prompt.txt` (+ clipboard on `install`) | Paste → Custom instructions / project rules / system prompt (persistent until replaced) |
+| `gemini` | `~/.gemini/extensions/cavewoman/` (`gemini-extension.json`, `GEMINI.md`) or `./.gemini/extensions/cavewoman/` | Restart CLI; enable extension; `/extensions` or `gemini extensions list` |
+| `codex` | `~/.cavewoman/codex-prefix.txt`, `~/.cavewoman/bin/cavewoman-codex` | `export PATH="$HOME/.cavewoman/bin:$PATH"`; `cavewoman-codex "<prompt>"` → prefixes, calls `codex -p`; or prepend file if calling `codex` yourself |
+| `windsurf` | `~/.cavewoman/windsurf-prefix.txt` | Paste into Cascade persistent instructions |
+| `generic` | `~/.cavewoman/generic-prefix.txt` | Manual prepend to prompts |
 
 ## Configuration
 
@@ -87,13 +110,13 @@ cavewoman uninstall -t cursor
 
 Environment override:
 
-- `CAVEWOMAN_CURSOR_SKILLS_DIR`: overrides Cursor skills base directory (does not write to rc)
+- `CAVEWOMAN_CURSOR_SKILLS_DIR`: override Cursor skills base directory
 
 ## Modes
 
-- `balanced`: tighter writing without rigid headings
-- `structured`: headings + checklist-style contract
-- `ultra`: maximum compression guidance
+- `balanced`: concise, natural response with minimal fluff - best for readable answers
+- `structured`: organized sections for clarity and quick action - best for debugging
+- `ultra`: maximum compression guidance - best for frequently coders - it saves more money
 
 ## Before vs after (illustrative)
 
@@ -114,7 +137,7 @@ Add a new injector under `src/injectors/`, export it from `src/injectors/index.t
 ```bash
 npm install
 npm run build
-node dist/cli.js status
+npx cavewoman
 ```
 
 ## License
