@@ -2,6 +2,8 @@
 
 Universal AI response optimizer CLI. Installs concise, structured, low-fluff guidance into different coding agents (Cursor, Claude, ChatGPT, Codex, Windsurf, generic prefix workflows).
 
+**Website & documentation:** https://opensource.stackblogger.com/cavewoman/
+
 ## Install
 
 ```bash

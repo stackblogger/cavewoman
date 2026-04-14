@@ -5,7 +5,11 @@ import { runInstall } from "./commands/install.js";
 import { runStatus } from "./commands/status.js";
 import { runSwitchMode } from "./commands/switchMode.js";
 import { runUninstall } from "./commands/uninstall.js";
-import { readVersion } from "./utils/version.js";
+import { readHomepage, readVersion } from "./utils/version.js";
+
+function docHelpText(): string {
+  return `\nDocumentation: ${readHomepage()}\n`;
+}
 
 function normalizeArgv(argv: string[]): string[] {
   const next = argv.filter((t) => t !== "--");
@@ -13,6 +17,12 @@ function normalizeArgv(argv: string[]): string[] {
     return ["install"];
   }
   const first = next[0];
+  const rootOnly =
+    next.length === 1 &&
+    (first === "--help" || first === "-h" || first === "--version" || first === "-V");
+  if (rootOnly) {
+    return next;
+  }
   if (first?.startsWith("-")) {
     return ["install", ...next];
   }
@@ -24,6 +34,7 @@ async function main(): Promise<void> {
   program.name("cavewoman");
   program.description("Universal AI response optimizer for coding agents");
   program.version(readVersion());
+  program.addHelpText("after", docHelpText());
 
   program
     .command("install")
@@ -31,6 +42,7 @@ async function main(): Promise<void> {
     .option("-t, --target <agent>", "Agent target (cursor|claude|chatgpt|codex|windsurf|generic)")
     .option("-m, --mode <mode>", "Rule mode (balanced|structured|ultra)")
     .option("-s, --scope <scope>", "Install scope (global|project)")
+    .addHelpText("after", docHelpText())
     .action(async (cmdOpts) => {
       const interactive = Boolean(process.stdin.isTTY && process.stdout.isTTY);
       await runInstall({
@@ -47,6 +59,7 @@ async function main(): Promise<void> {
     .description("Remove cavewoman artifacts for a target")
     .option("-t, --target <agent>", "Agent target (defaults to last install)")
     .option("-s, --scope <scope>", "Scope used for Cursor uninstall paths (global|project)")
+    .addHelpText("after", docHelpText())
     .action(async (cmdOpts) => {
       await runUninstall({
         target: cmdOpts.target as string | undefined,
@@ -58,6 +71,7 @@ async function main(): Promise<void> {
   program
     .command("switch-mode <mode>")
     .description("Change default mode and refresh last installed target")
+    .addHelpText("after", docHelpText())
     .action(async (mode: string) => {
       await runSwitchMode({ mode, cwd: process.cwd() });
     });
@@ -65,6 +79,7 @@ async function main(): Promise<void> {
   program
     .command("status")
     .description("Show configuration and injector health")
+    .addHelpText("after", docHelpText())
     .action(async () => {
       await runStatus({ cwd: process.cwd() });
     });
