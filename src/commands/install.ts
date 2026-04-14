@@ -1,4 +1,6 @@
 import os from "node:os";
+import tty from "node:tty";
+import { stdin } from "node:process";
 import { parseRuleMode } from "../rules/index.js";
 import { effectiveCursorSkillsDir, loadConfig, mergeConfig, type Scope } from "../utils/config.js";
 import { icons, line } from "../utils/logger.js";
@@ -99,5 +101,11 @@ export async function runInstall(opts: {
   if (injector.id === "codex") {
     line("Codex tip: verify your `codex` CLI supports `-p` / prompt injection; edit wrapper if not.");
     line("");
+  }
+
+  if (opts.interactive && tty.isatty(stdin.fd)) {
+    const s = stdin as typeof stdin & { setRawMode?: (mode: boolean) => void };
+    s.setRawMode?.(false);
+    stdin.pause();
   }
 }

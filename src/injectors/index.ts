@@ -19,6 +19,10 @@ export function listTargets(): InstallTarget[] {
   return injectors.map((i) => i.id);
 }
 
+export function listTargetChoices(): { name: string; value: InstallTarget }[] {
+  return injectors.map((i) => ({ name: `${i.id} — ${i.label}`, value: i.id }));
+}
+
 export function resolveInjector(target: string): Injector | null {
   const key = target.toLowerCase() as InstallTarget;
   return byId.get(key) ?? null;

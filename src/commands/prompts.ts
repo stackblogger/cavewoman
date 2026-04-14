@@ -1,6 +1,16 @@
-import readline from "node:readline/promises";
-import { stdin as input, stdout as output } from "node:process";
-import { listTargets } from "../injectors/index.js";
+import { listTargetChoices } from "../injectors/index.js";
+import { chooseOne } from "../utils/chooseOne.js";
+
+const MODE_CHOICES = [
+  { name: "balanced — tighter prose, fewer headings", value: "balanced" },
+  { name: "structured — headings + checklists", value: "structured" },
+  { name: "ultra — minimum tokens", value: "ultra" },
+] as const;
+
+const SCOPE_CHOICES = [
+  { name: "global — user-level paths (~/.agents/skills for Cursor)", value: "global" },
+  { name: "project — repo-level paths (./.agents/skills)", value: "project" },
+] as const;
 
 export async function promptMissingInstallArgs(opts: {
   target?: string;
@@ -8,29 +18,33 @@ export async function promptMissingInstallArgs(opts: {
   scope?: string;
   defaults: { target: string; mode: string; scope: string };
 }): Promise<{ target: string; mode: string; scope: string }> {
-  const rl = readline.createInterface({ input, output });
-  try {
-    let target = opts.target?.trim();
-    if (!target) {
-      const targets = listTargets().join(", ");
-      const ans = await rl.question(`Target (${targets}) [${opts.defaults.target}]: `);
-      target = ans.trim() || opts.defaults.target;
-    }
-
-    let mode = opts.mode?.trim();
-    if (!mode) {
-      const ans = await rl.question(`Mode (balanced|structured|ultra) [${opts.defaults.mode}]: `);
-      mode = ans.trim() || opts.defaults.mode;
-    }
-
-    let scope = opts.scope?.trim();
-    if (!scope) {
-      const ans = await rl.question(`Scope (global|project) [${opts.defaults.scope}]: `);
-      scope = ans.trim() || opts.defaults.scope;
-    }
-
-    return { target, mode, scope };
-  } finally {
-    rl.close();
+  let target = opts.target?.trim();
+  if (!target) {
+    const choices = listTargetChoices();
+    target = await chooseOne({
+      message: "Target",
+      choices,
+      defaultValue: opts.defaults.target,
+    });
   }
+
+  let mode = opts.mode?.trim();
+  if (!mode) {
+    mode = await chooseOne({
+      message: "Mode",
+      choices: [...MODE_CHOICES],
+      defaultValue: opts.defaults.mode,
+    });
+  }
+
+  let scope = opts.scope?.trim();
+  if (!scope) {
+    scope = await chooseOne({
+      message: "Scope",
+      choices: [...SCOPE_CHOICES],
+      defaultValue: opts.defaults.scope,
+    });
+  }
+
+  return { target, mode, scope };
 }
