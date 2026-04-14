@@ -1,32 +1,61 @@
-# cavewoman
+<p align="center">
+  <img src="assets/cavewoman-logo.png" alt="cavewoman" />
+</p>
 
-Universal AI response optimizer CLI. Installs concise, structured, low-fluff guidance into different coding agents (Cursor, Claude Code, ChatGPT, Gemini CLI, Codex, Windsurf, generic prefix workflows).
+<h1 align="center">cavewoman</h1>
 
-**Website & documentation:** https://opensource.stackblogger.com/cavewoman/
+<p align="center">
+  <strong>a lightweight CLI that saves your real money with coding agents</strong>
+</p>
 
-## Install
+**Documentation:** https://opensource.stackblogger.com/cavewoman/
+
+## CLI Install
+
+As a prerequisite, you need to have [Node.js](https://nodejs.org) installed on your machine to use `npm` commands.
+
+1. Open **Terminal** (Mac) or **Command Prompt** / **PowerShell** (Windows).
+2. Install cavewoman CLI once:
+
+   ```bash
+   npm install -g cavewoman
+   ```
+
+3. Run the command and follow on-screen instructions to install it
+
+   ```bash
+   cavewoman
+   ```
+
+   The installer asks a few questions if you do not pass options.
+
+**Try without step 2:** if you only want a one-off run, skip the global install and use:
 
 ```bash
-npm install -g cavewoman
-```
-
-Or run without global install:
-
-```bash
-npx cavewoman --target cursor
+npx cavewoman
 ```
 
 ## Quick start
 
 ```bash
-cavewoman install --target cursor --mode structured --scope global
-cavewoman install --target claude-code --mode ultra
+cavewoman install -t cursor -m structured -s global
+cavewoman install -t claude-code -m ultra
 cavewoman status
 cavewoman switch balanced
-cavewoman uninstall --target cursor
+cavewoman uninstall -t cursor
 ```
 
-If you omit flags on `install`, cavewoman prompts interactively (TTY only).
+**`install`** — `-t` / `--target` → agent id (`cursor`, `claude-code`, `chatgpt`, `gemini`, `codex`, `windsurf`, `generic`).  
+**`install`** — `-m` / `--mode` → `balanced` | `structured` | `ultra`.  
+**`install`** — `-s` / `--scope` → `global` (this machine) | `project` (current repo).  
+**`install`** (no flags) → prompts for target, mode, scope when TTY.  
+
+**`switch [mode]`** — sets default mode and refreshes last installed target; omit `mode` for interactive picker.  
+
+**`uninstall`** — `-t` / `--target` → which agent to clean (defaults to last install).  
+**`uninstall`** — `-s` / `--scope` → scope for non-Cursor targets; Cursor uninstall touches global and project skill dirs when present.  
+
+**`status`** — prints saved defaults, last install, and last scope.
 
 ## Supported agents
 
