@@ -1,12 +1,7 @@
 const SKILL = "cavewoman";
 
-export function cursorSkillMarkdown(mode: string, rules: string): string {
-  return `---
-name: ${SKILL}
-description: Cavewoman response optimizer (${mode}). Injects concise, structured, low-fluff guidance.
----
-
-# Cavewoman
+function cavewomanBody(mode: string, rules: string): string {
+  return `# Cavewoman
 
 Mode: **${mode}**
 
@@ -18,6 +13,24 @@ ${rules}
 
 Keep this skill enabled while pair-programming. Adjust mode via \`cavewoman switch\`.
 `;
+}
+
+export function cursorSkillMarkdown(mode: string, rules: string): string {
+  return `---
+name: ${SKILL}
+description: Cavewoman response optimizer (${mode}). Injects concise, structured, low-fluff guidance.
+---
+
+${cavewomanBody(mode, rules)}`;
+}
+
+export function cursorProjectRuleMarkdown(mode: string, rules: string): string {
+  return `---
+description: Cavewoman response optimizer (${mode}) — always-on project rule
+alwaysApply: true
+---
+
+${cavewomanBody(mode, rules)}`;
 }
 
 export function claudeCodeSkillMarkdown(mode: string, rules: string): string {

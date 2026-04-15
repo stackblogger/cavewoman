@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { getRules } from "../rules/index.js";
 import { ensureDir, resolveCursorSkillsDir } from "../utils/paths.js";
-import { cursorSkillMarkdown } from "./markdownSkill.js";
+import { cursorProjectRuleMarkdown, cursorSkillMarkdown } from "./markdownSkill.js";
 import type { Injector, InstallContext, InstallResult } from "./types.js";
 
 const SKILL_NAME = "cavewoman";
@@ -21,6 +21,10 @@ function skillDirsForUninstall(ctx: InstallContext): string[] {
   return [globalDir, projectDir];
 }
 
+function projectCursorRulePath(cwd: string): string {
+  return path.join(cwd, ".cursor", "rules", "cavewoman.mdc");
+}
+
 export const cursorInjector: Injector = {
   id: "cursor",
   label: "Cursor",
@@ -31,9 +35,12 @@ export const cursorInjector: Injector = {
     const rules = getRules(ctx.mode);
     const md = cursorSkillMarkdown(ctx.mode, rules);
     fs.writeFileSync(path.join(dir, "SKILL.md"), md, "utf8");
+    const rulePath = projectCursorRulePath(ctx.cwd);
+    ensureDir(path.dirname(rulePath));
+    fs.writeFileSync(rulePath, cursorProjectRuleMarkdown(ctx.mode, rules), "utf8");
     return {
-      summary: "Installed cavewoman skill",
-      details: [dir],
+      summary: "Installed cavewoman Cursor skill + always-on project rule (.cursor/rules)",
+      details: [dir, rulePath],
     };
   },
 
@@ -50,18 +57,39 @@ export const cursorInjector: Injector = {
         /* ignore */
       }
     }
-    if (removed.length === 0) {
-      return { summary: "Nothing to remove (skill missing)", details: dirs };
+    const rulePath = projectCursorRulePath(ctx.cwd);
+    try {
+      if (fs.existsSync(rulePath)) {
+        fs.unlinkSync(rulePath);
+        removed.push(rulePath);
+      }
+    } catch {
+      /* ignore */
     }
-    return { summary: "Removed cavewoman Cursor skill", details: removed };
+    if (removed.length === 0) {
+      return { summary: "Nothing to remove (Cursor skill / rule missing)", details: [...dirs, rulePath] };
+    }
+    return { summary: "Removed cavewoman Cursor skill + project rule when present", details: removed };
   },
 
   async status(ctx: InstallContext): Promise<InstallResult> {
     const dir = skillDir(ctx);
-    const exists = fs.existsSync(path.join(dir, "SKILL.md"));
+    const skillOk = fs.existsSync(path.join(dir, "SKILL.md"));
+    const rulePath = projectCursorRulePath(ctx.cwd);
+    const ruleOk = fs.existsSync(rulePath);
+    let summary: string;
+    if (skillOk && ruleOk) {
+      summary = "Cursor skill + always-on rule present";
+    } else if (skillOk) {
+      summary = "Cursor skill present (no .cursor/rules/cavewoman.mdc)";
+    } else if (ruleOk) {
+      summary = "Always-on rule present (Cursor skill missing)";
+    } else {
+      summary = "Cursor skill + rule missing";
+    }
     return {
-      summary: exists ? "Cursor skill present" : "Cursor skill missing",
-      details: [dir],
+      summary,
+      details: [dir, rulePath],
     };
   },
 };
